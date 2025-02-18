@@ -38,6 +38,8 @@ export function useHealthCheck(service: Service, interval: number = 30000) {
           headers: {
             'Accept': 'application/json',
           },
+          mode: 'cors',
+          credentials: 'include',
         });
 
         const endTime = performance.now();
