@@ -33,7 +33,7 @@ export function useHealthCheck(service: Service, interval: number = 30000) {
     const checkHealth = async () => {
       const startTime = performance.now();
       try {
-        const response = await fetch(`${service.url}/health`, {
+        const response = await fetch(service.url, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
