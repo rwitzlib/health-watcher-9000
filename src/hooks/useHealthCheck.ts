@@ -1,10 +1,19 @@
+
 import { useState, useEffect } from 'react';
+
+interface HealthResponse {
+  status: string;
+  services: string[];
+  infrastructure: string[];
+}
 
 export interface HealthCheckResult {
   status: 'healthy' | 'error' | 'loading';
   responseTime: number;
   lastChecked: Date;
   error?: string;
+  services?: string[];
+  infrastructure?: string[];
 }
 
 export interface Service {
@@ -35,10 +44,13 @@ export function useHealthCheck(service: Service, interval: number = 30000) {
         const responseTime = endTime - startTime;
 
         if (response.ok) {
+          const data: HealthResponse = await response.json();
           setResult({
-            status: 'healthy',
+            status: data.status === 'OK' ? 'healthy' : 'error',
             responseTime,
             lastChecked: new Date(),
+            services: data.services,
+            infrastructure: data.infrastructure,
           });
         } else {
           setResult({

@@ -1,3 +1,4 @@
+
 import { Service, useHealthCheck } from '@/hooks/useHealthCheck';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -45,6 +46,30 @@ export function ServiceCard({ service, onDelete }: ServiceCardProps) {
               {formatDistanceToNow(health.lastChecked, { addSuffix: true })}
             </span>
           </div>
+          {health.services && health.services.length > 0 && (
+            <div className="space-y-2">
+              <span className="text-sm text-muted-foreground">Services</span>
+              <div className="flex flex-wrap gap-2">
+                {health.services.map((service, index) => (
+                  <span key={index} className="text-xs bg-secondary px-2 py-1 rounded">
+                    {service}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {health.infrastructure && health.infrastructure.length > 0 && (
+            <div className="space-y-2">
+              <span className="text-sm text-muted-foreground">Infrastructure</span>
+              <div className="flex flex-wrap gap-2">
+                {health.infrastructure.map((item, index) => (
+                  <span key={index} className="text-xs bg-secondary px-2 py-1 rounded">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
           {health.error && (
             <div className="mt-2 text-sm text-destructive">
               {health.error}
